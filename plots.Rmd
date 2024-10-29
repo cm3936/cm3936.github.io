@@ -1,6 +1,9 @@
 ---
-title: "plotsbycaro"
-output: html_document
+title: "Plots by Caro"
+output: 
+  html_document:
+    toc: true
+    toc_flat: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -11,6 +14,7 @@ library(tidyverse)
 library(plotly)
 library(dplyr)
 library(tidyr)
+library(plotly)
 
 
 nyc_restaurant_inspections =
@@ -24,12 +28,17 @@ nyc_restaurant_inspections =
 ## Plot 1: Health Department Inspection Grades by Borough 
 
 ```{r, echo=FALSE}
-nyc_restaurant_inspections|>
+plot1=nyc_restaurant_inspections |>
   filter(grade %in% c("A", "B", "C"), boro != "Missing") |>    
-  mutate(
-    boro = fct_infreq(boro))|>
-  ggplot(aes(x = boro, fill = grade)) + 
-  geom_bar()
+  mutate(boro = fct_infreq(boro)) |> 
+  count(boro, grade) |>  # Count occurrences
+  plot_ly(x = ~boro, y = ~n, color = ~grade, type = 'bar', colors = "Set1") |> 
+  layout(title = "Count of Restaurant Grades by Borough",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Count"),
+         barmode = 'stack')
+
+ggplotly(plot1)
 ```
 
 This plot shows the proportion of A, B, and C letter grades in the inspections in the data set by borough. 
@@ -37,26 +46,34 @@ This plot shows the proportion of A, B, and C letter grades in the inspections i
 ## Plot 2: Counts of Critical Flags by Borough 
 
 ```{r, echo=FALSE}
-nyc_restaurant_inspections|>
-  filter(grade %in% c("A", "B", "C"), boro != "Missing", critical_flag != "Not Applicable") |>    
-  mutate(
-    boro = fct_infreq(boro))|>
-   group_by(boro, critical_flag, cuisine_description)|>
-   summarize(n=n())|>
-  ggplot(aes(x = boro)) + 
-  geom_bar(aes(y = n, fill = critical_flag), stat = "identity", position = "dodge") + 
-  labs(title = "Counts of Critical Flags by Borough",
-       x = "Borough",
-       y = "Count",
-       fill = "Critical Flag") +
-  theme_minimal()
+plot2=
+   nyc_restaurant_inspections |>
+  filter(grade %in% c("A", "B", "C"), 
+         boro != "Missing", 
+         critical_flag != "Not Applicable") |>    
+  mutate(boro = fct_infreq(boro)) |>
+  group_by(boro, critical_flag) |>
+  summarize(n = n(), .groups = 'drop') |> 
+  plot_ly(x = ~boro, y = ~n, color = ~critical_flag, type = 'bar', 
+          colors = "Set1", 
+          text = ~paste("Count:", n),
+          hoverinfo = 'text') |> 
+  layout(title = "Counts of Critical Flags by Borough",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Count"),
+         barmode = 'dodge',  # Set bar mode to dodge
+         legend = list(title = list(text = "Critical Flag")))
+
+ggplotly(plot2)
 ```
 
 The critical flags are used to identify "critical violations [that are] most likely to contribute to foodborne illness. This plot shows that the critical flags are more common that not critical in all boroughs but not by a lot. 
 
 ## Plot 3: Health Department Critical Flags by Grades & Borough
 ```{r, echo=FALSE}
-nyc_restaurant_inspections |>
+
+plot3=
+   nyc_restaurant_inspections |>
   filter(boro != "Missing", cuisine_description != "Missing") |>    
   mutate(boro = fct_infreq(boro)) |>
   group_by(boro, grade, critical_flag) |>
@@ -69,11 +86,11 @@ nyc_restaurant_inspections |>
   theme_minimal() +
   facet_grid(~ boro) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplotly(plot3)
+
 ```
 
 This plot demonstrates among the specific grades received by the establishments and the distribution of critical flags within each grade. This plot demonstrates that even though establishments got an A grade they had critical flags. 
-
-
-
 
 
