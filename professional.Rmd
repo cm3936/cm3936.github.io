@@ -1,0 +1,62 @@
+---
+title: "Academic and Professional"
+output: html_document
+---
+
+## Education 
+
+Columbia University Mailman School of Public Health
+
+ - Masters of Public Health Candidate
+ 
+ - Department of Sociomedical Sciences 
+ 
+ - Applied Biostatistics and Public Health Data Science  
+
+
+
+Columbia University, Columbia College			                                   
+   - Bachelor of Arts in Medical Humanities
+   
+   - Minor: Public Health [Premedical Track] 	
+   
+   - Senior Thesis: Abortion Exceptionalism in Medical Schools and Obstetrics and Gynecology Residency Curricula in New York City and Baltimore 
+   
+   
+## Professional 
+
+Bureau of Children, Youth and Families and Developmental Disabilities, NYC DOHMH
+Health and Justice Surveillance and Evaluation HRTP Intern 					           
+
+- Design and develop a standard operating procedure (SOP) for Children’s Mobile Crisis Team (CMCT).
+- Coordinate drafting of monthly and annual reports for Home Based Crisis Intervention (HBCI).
+
+
+Department of User Support and Training, Planned Parenthood Federation of America 			   
+Training and Documentation Assistant							 
+
+- Assisted the Director of User Support and Training with an organizational transition to Salesforce by preparing user friendly training documentation and supporting administrators with logistics of training sessions. 
+- Reviewed technical database content and internal intranet workspace information and synthesize into clear Salesforce training documentation managed on an internal intranet workspace.
+
+
+## Research
+
+Department of Sociomedical Sciences, Mailman School of Public Health	
+GATE Menstrual Health Fellow, Dr. Marni Sommer 		
+   Project Title: Perimenopause in the Workplace
+
+Department of Sociomedical Sciences, Mailman School of Public Health	
+Research Assistant, Dr. Diana Hernandez		
+   Project Title: Smoke-free Study 
+
+
+Department of Physiology and Cellular Biophysics, Vagelos College of Physicians and Surgeons	              
+Research Assistant, Dr. Andrew Marks 
+   Project Title: Catecholaminergic Polymorphic Ventricular Tachycharida Cryo-EM modeling and identifying mutations that manifest as that condition. 
+
+
+
+
+
+
+

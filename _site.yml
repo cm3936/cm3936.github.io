@@ -1,0 +1,16 @@
+name: "Carolyn Martinez"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "Resume"
+      href: professional.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<cm3936@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/cm3936/
+    - icon: fa-rocket fa-lg
+      href: https://www.linkedin.com/in/carolyn-martinez12/
+output:
+  html_document:
+    theme: united
