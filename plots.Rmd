@@ -1,0 +1,79 @@
+---
+title: "plotsbycaro"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(p8105.datasets)
+library(tidyverse)
+library(plotly)
+library(dplyr)
+library(tidyr)
+
+
+nyc_restaurant_inspections =
+   rest_inspec |>
+   drop_na(grade)|>
+   select(boro, critical_flag,cuisine_description, inspection_date, grade)|>
+   separate(inspection_date, into = c("year" , "month", "day"), sep = "-")|>
+     filter(grade %in% c("A", "B", "C"), boro != "Missing") 
+```
+
+## Plot 1: Health Department Inspection Grades by Borough 
+
+```{r, echo=FALSE}
+nyc_restaurant_inspections|>
+  filter(grade %in% c("A", "B", "C"), boro != "Missing") |>    
+  mutate(
+    boro = fct_infreq(boro))|>
+  ggplot(aes(x = boro, fill = grade)) + 
+  geom_bar()
+```
+
+This plot shows the proportion of A, B, and C letter grades in the inspections in the data set by borough. 
+
+## Plot 2: Counts of Critical Flags by Borough 
+
+```{r, echo=FALSE}
+nyc_restaurant_inspections|>
+  filter(grade %in% c("A", "B", "C"), boro != "Missing", critical_flag != "Not Applicable") |>    
+  mutate(
+    boro = fct_infreq(boro))|>
+   group_by(boro, critical_flag, cuisine_description)|>
+   summarize(n=n())|>
+  ggplot(aes(x = boro)) + 
+  geom_bar(aes(y = n, fill = critical_flag), stat = "identity", position = "dodge") + 
+  labs(title = "Counts of Critical Flags by Borough",
+       x = "Borough",
+       y = "Count",
+       fill = "Critical Flag") +
+  theme_minimal()
+```
+
+The critical flags are used to identify "critical violations [that are] most likely to contribute to foodborne illness. This plot shows that the critical flags are more common that not critical in all boroughs but not by a lot. 
+
+## Plot 3: Health Department Critical Flags by Grades & Borough
+```{r, echo=FALSE}
+nyc_restaurant_inspections |>
+  filter(boro != "Missing", cuisine_description != "Missing") |>    
+  mutate(boro = fct_infreq(boro)) |>
+  group_by(boro, grade, critical_flag) |>
+  summarize(n = n(), .groups = 'drop') |> 
+  ggplot(aes(x = n, y = grade, fill = critical_flag)) +  
+  geom_bar(stat = "identity", position = "dodge") +  
+  labs(title = "Count of Grades by Borough and Critical Flag", 
+       x = "Count", 
+       y = "Grade") +
+  theme_minimal() +
+  facet_grid(~ boro) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+This plot demonstrates among the specific grades received by the establishments and the distribution of critical flags within each grade. This plot demonstrates that even though establishments got an A grade they had critical flags. 
+
+
+
+
+
