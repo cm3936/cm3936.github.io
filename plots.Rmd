@@ -41,7 +41,7 @@ plot1=nyc_restaurant_inspections |>
 ggplotly(plot1)
 ```
 
-This plot shows the proportion of A, B, and C letter grades in the inspections in the data set by borough. 
+This plot shows the proportion of A, B, and C letter grades in the inspections in the data set by borough.
 
 ## Plot 2: Counts of Critical Flags by Borough 
 
@@ -67,7 +67,7 @@ plot2=
 ggplotly(plot2)
 ```
 
-The critical flags are used to identify "critical violations [that are] most likely to contribute to foodborne illness. This plot shows that the critical flags are more common that not critical in all boroughs but not by a lot. 
+The critical flags are used to identify "critical violations [that are] most likely to contribute to foodborne illness. This plot shows that the critical flags are more common that not critical in all boroughs but not by a lot.
 
 ## Plot 3: Health Department Critical Flags by Grades & Borough
 ```{r, echo=FALSE}
@@ -91,6 +91,6 @@ ggplotly(plot3)
 
 ```
 
-This plot demonstrates among the specific grades received by the establishments and the distribution of critical flags within each grade. This plot demonstrates that even though establishments got an A grade they had critical flags. 
+This plot demonstrates among the specific grades received by the establishments and the distribution of critical flags within each grade. This plot demonstrates that even though establishments got an A grade they had critical flags.
 
 
