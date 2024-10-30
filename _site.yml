@@ -6,9 +6,7 @@ navbar:
     - text: "Resume"
       href: professional.html
     - text: "Dashboard by Caro"
-      href: Dashboard.html
-    - text: "Plots by Caro"
-      href: plots.html
+      href: dashboard_template.html
     - icon: fa-envelope fa-lg
       href: mailto:<cm3936@cumc.columbia.edu>
     - icon: fa-github fa-lg
