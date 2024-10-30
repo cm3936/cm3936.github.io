@@ -2,8 +2,10 @@
 title: "Dashboard by Caro"
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+    orientation: rows
+    vertical_layout: scroll
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -28,12 +30,18 @@ Column {data-width=650}
 ### Chart A: Health Department Inspection Grades by Borough 
 
 ```{r}
-nyc_restaurant_inspections|>
+plot1=
+   nyc_restaurant_inspections |>
   filter(grade %in% c("A", "B", "C"), boro != "Missing") |>    
-  mutate(
-    boro = fct_infreq(boro))|>
-  ggplot(aes(x = boro, fill = grade)) + 
-  geom_bar()
+  mutate(boro = fct_infreq(boro)) |> 
+  count(boro, grade) |> 
+  plot_ly(x = ~boro, y = ~n, color = ~grade, type = 'bar', colors = "Set1") |> 
+  layout(title = "Count of Restaurant Grades by Borough",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Count"),
+         barmode = 'stack')
+
+ggplotly(plot1)
 ```
 
 Column {data-width=350}
@@ -42,19 +50,25 @@ Column {data-width=350}
 ### Chart B: Counts of Critical Flags by Borough 
 
 ```{r}
-nyc_restaurant_inspections|>
-  filter(grade %in% c("A", "B", "C"), boro != "Missing", critical_flag != "Not Applicable") |>    
-  mutate(
-    boro = fct_infreq(boro))|>
-   group_by(boro, critical_flag, cuisine_description)|>
-   summarize(n=n())|>
-  ggplot(aes(x = boro)) + 
-  geom_bar(aes(y = n, fill = critical_flag), stat = "identity", position = "dodge") + 
-  labs(title = "Counts of Critical Flags by Borough",
-       x = "Borough",
-       y = "Count",
-       fill = "Critical Flag") +
-  theme_minimal()
+plot2=
+   nyc_restaurant_inspections |>
+  filter(grade %in% c("A", "B", "C"), 
+         boro != "Missing", 
+         critical_flag != "Not Applicable") |>    
+  mutate(boro = fct_infreq(boro)) |>
+  group_by(boro, critical_flag) |>
+  summarize(n = n(), .groups = 'drop') |> 
+  plot_ly(x = ~boro, y = ~n, color = ~critical_flag, type = 'bar', 
+          colors = "Set1", 
+          text = ~paste("Count:", n),
+          hoverinfo = 'text') |> 
+  layout(title = "Counts of Critical Flags by Borough",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Count"),
+         barmode = 'dodge',  # Set bar mode to dodge
+         legend = list(title = list(text = "Critical Flag")))
+
+ggplotly(plot2)
 ```
 
 ### Chart C: Plot 3: Health Department Critical Flags by Grades & Borough
@@ -76,6 +90,7 @@ plot3=
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ggplotly(plot3)
+
 ```
 
 
